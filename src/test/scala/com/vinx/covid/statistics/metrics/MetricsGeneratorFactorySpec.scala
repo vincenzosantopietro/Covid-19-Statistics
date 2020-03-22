@@ -11,14 +11,16 @@ class MetricsGeneratorFactorySpec extends FlatSpec with Matchers {
   private val df = spark.emptyDataFrame
 
   it should "throw illegal argument exception" in {
+
     val thrown = intercept[IllegalArgumentException] {
-      val fakeMetricsGenerator =  MetricsGeneratorFactory.createMetricsGenerator("not_existing_metric", df,
+      val fakeMetricsGenerator =  MetricsGeneratorFactory.createMetricsGenerator("not_existing_metric", "not_existing_data_path",
         "not_existing_path")
     }
   }
 
+
   it should "create a chinaDeathsOverTime object" in {
-    val generator = MetricsGeneratorFactory.createMetricsGenerator("chinaDeathsOverTime", df, "resources")
-    generator.getClass.getSimpleName shouldBe "ChinaDeathsOverTimeMetricsGenerator"
+    val generator = MetricsGeneratorFactory.createMetricsGenerator("italyDeclaredCasesOverTime", "src/main/resources/", "resources")
+    generator.getClass.getSimpleName shouldBe "ItalyDeclaredCasesOverTime"
   }
 }

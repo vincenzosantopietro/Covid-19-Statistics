@@ -40,6 +40,12 @@
         </dependency>-->
 
         <dependency>
+            <groupId>com.pygmalios</groupId>
+            <artifactId>reactiveinflux_2.10</artifactId>
+            <version>0.10.0.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.liftweb</groupId>
             <artifactId>lift-json_2.11</artifactId>
             <version>3.4.1</version>

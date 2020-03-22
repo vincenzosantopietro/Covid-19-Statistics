@@ -21,6 +21,8 @@ the proper data source (`localhost:3003`). Remember the password on Grafana is `
 
 You could either run the job using a spark-submit or import the project in Intellij and run the metrics computation by simply clicking the green play button.
 
+![Image of Grafana Panels](src/main/resources/images/grafanacovid.png)
+
 #### Additional Notes
 
 Feel free to provide any feedback, suggest possible improvements or new data sources to "play" with. 

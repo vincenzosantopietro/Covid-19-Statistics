@@ -2,9 +2,16 @@ package com.vinx.covid.statistics.job
 
 import com.vinx.covid.statistics.data.{DataParser, MetricsCollector}
 import com.vinx.covid.statistics.metrics.MetricsGeneratorFactory
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.DataFrame
 
+/***
+ * @author Vincenzo Santopietro <vinsantopietro@gmail.com>
+ */
+
 object NcovidStatisticsGeneratorJob {
+
+  private val dataPath = "src/main/resources/"
 
   def printSamples(data: DataFrame) : Unit = {
     println(s"Data Sample:")
@@ -14,14 +21,18 @@ object NcovidStatisticsGeneratorJob {
   }
 
   def main(args: Array[String]): Unit = {
-    // TODO: move this inside metrics estimators
-    val data = new DataParser("2019_nCoV_data.csv").getData
+
+    val logger = Logger.getLogger("org")
+    logger.setLevel(Level.INFO)
 
     // Collect metrics to compute
-    val metrics = MetricsCollector.collectMetrics("src/resources/config.json")
+    val metrics = MetricsCollector.collectMetrics("src/main/resources/config.json")
 
+    logger.info("Metrics computation started!")
     for (metric <- metrics) {
-      MetricsGeneratorFactory.createMetricsGenerator(metric, data, "output/" + metric + ".png")
+      val metric_generator = MetricsGeneratorFactory.createMetricsGenerator(metric, dataPath, "output/" + metric + ".png")
+      metric_generator.generate()
     }
+    logger.info("Metrics computation successfully finished.")
   }
 }

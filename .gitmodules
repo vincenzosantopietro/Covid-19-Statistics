@@ -1,0 +1,6 @@
+[submodule "COVID-19"]
+	path = COVID-19
+	url = https://github.com/pcm-dpc/COVID-19.git
+[submodule "src/main/resources/COVID-19"]
+	path = src/main/resources/COVID-19
+	url = https://github.com/pcm-dpc/COVID-19.git

@@ -19,7 +19,7 @@ import org.apache.spark.sql.Row
 import scala.collection.mutable
 import scala.concurrent.duration._
 
-class InfluxDBSink(dbUrl:String, dbName: String) extends MetricsWriter {
+class InfluxDBSink(dbUrl:String, dbName: String, measurementName: String) extends MetricsWriter {
 
   implicit val awaitAtMost: FiniteDuration = 10.seconds
   val spark: SparkSession = SparkSession.builder.getOrCreate
@@ -39,6 +39,8 @@ class InfluxDBSink(dbUrl:String, dbName: String) extends MetricsWriter {
   override def storeMetrics(metrics: DataFrame): Unit = {
     // List of column names
     val schema = metrics.columns
+    schema.foreach(println)
+    metrics.show()
     val data = metrics.collect()
 
     val list = data.toList
@@ -48,7 +50,7 @@ class InfluxDBSink(dbUrl:String, dbName: String) extends MetricsWriter {
         val field = createFields(elem, schema)
         val point = Point(
           time = DateTime.parse(elem(0).toString.substring(0,10)),
-          measurement = "contry-overall",
+          measurement = measurementName,
           tags = Map("Time"->"Infected"),
           fields = field
         )

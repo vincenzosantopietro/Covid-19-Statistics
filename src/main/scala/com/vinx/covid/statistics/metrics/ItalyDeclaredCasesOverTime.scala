@@ -11,7 +11,7 @@ import org.apache.spark.sql.DataFrame
  */
 class ItalyDeclaredCasesOverTime(data: DataFrame, outputPath: String) extends MetricsGenerator {
   override def generate(): Unit = {
-    new InfluxDBSink("http://localhost:8086/","covid-italy").
+    new InfluxDBSink("http://localhost:8086/","covid-italy", "contry-overall").
       storeMetrics(data)
   }
 }

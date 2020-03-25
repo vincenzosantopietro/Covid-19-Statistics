@@ -41,7 +41,7 @@
 
         <dependency>
             <groupId>com.pygmalios</groupId>
-            <artifactId>reactiveinflux_2.10</artifactId>
+            <artifactId>reactiveinflux_2.11</artifactId>
             <version>0.10.0.5</version>
         </dependency>
 

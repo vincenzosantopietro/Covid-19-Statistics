@@ -21,10 +21,11 @@ class ItalianCNMDataParser(inputPath : String) extends DataParser {
       option("header","true").
       csv(resource_path).
       //withColumn("sno", $"sno".cast(sql.types.IntegerType)).
-      withColumn("data", to_timestamp(col("data"),"yyyy-MM-dd HH:mm:ss")).
+      withColumn("data", to_timestamp(col("data"),"yyyy-MM-dd\'T\'HH:mm:ss")).
       //withColumn("Date", $"Date".cast(sql.types.StringType)).
       withColumn("deceduti", $"deceduti".cast(sql.types.IntegerType)).
       withColumn("totale_attualmente_positivi", $"totale_attualmente_positivi".cast(sql.types.IntegerType)).
+      withColumn("nuovi_attualmente_positivi", $"nuovi_attualmente_positivi".cast(sql.types.IntegerType)).
       withColumn("totale_ospedalizzati", $"totale_ospedalizzati".cast(sql.types.IntegerType)).
       withColumn("terapia_intensiva", $"nuovi_attualmente_positivi".cast(sql.types.IntegerType)).
       withColumn("dimessi_guariti", $"dimessi_guariti".cast(sql.types.IntegerType)).
@@ -34,7 +35,7 @@ class ItalianCNMDataParser(inputPath : String) extends DataParser {
       withColumn("isolamento_domiciliare", $"isolamento_domiciliare".cast(sql.types.IntegerType)).
       withColumn("ricoverati_con_sintomi", $"ricoverati_con_sintomi".cast(sql.types.IntegerType))
 
-    Some(data)
+    Some(data.drop("note_it").drop("note_en"))
   }
 
   override def getData : DataFrame = {

@@ -1,6 +1,6 @@
 package com.vinx.covid.statistics.job
 
-import com.vinx.covid.statistics.data.{DataParser, MetricsCollector}
+import com.vinx.covid.statistics.data.{ItalianCNMDataParser, MetricsCollector}
 import com.vinx.covid.statistics.metrics.MetricsGeneratorFactory
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.DataFrame

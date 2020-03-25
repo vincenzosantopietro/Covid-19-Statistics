@@ -21,10 +21,10 @@ import scala.concurrent.duration._
 
 class InfluxDBSink(dbUrl:String, dbName: String) extends MetricsWriter {
 
-  implicit val awaitAtMost = 10.seconds
-  val spark = SparkSession.builder.getOrCreate
+  implicit val awaitAtMost: FiniteDuration = 10.seconds
+  val spark: SparkSession = SparkSession.builder.getOrCreate
 
-  def createFields(row: Row, schema: Array[String]) = {
+  def createFields(row: Row, schema: Array[String]): Map[FieldKey, FieldValue] = {
     var field = Map[FieldKey,FieldValue]()
 
     for(i <- 2 until schema.length){

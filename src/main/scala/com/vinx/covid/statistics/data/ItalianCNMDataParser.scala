@@ -24,10 +24,10 @@ class ItalianCNMDataParser(inputPath : String) extends DataParser {
       withColumn("data", to_timestamp(col("data"),"yyyy-MM-dd\'T\'HH:mm:ss")).
       //withColumn("Date", $"Date".cast(sql.types.StringType)).
       withColumn("deceduti", $"deceduti".cast(sql.types.IntegerType)).
-      withColumn("totale_attualmente_positivi", $"totale_attualmente_positivi".cast(sql.types.IntegerType)).
-      withColumn("nuovi_attualmente_positivi", $"nuovi_attualmente_positivi".cast(sql.types.IntegerType)).
+      withColumn("totale_positivi", $"totale_positivi".cast(sql.types.IntegerType)).
+      withColumn("variazione_totale_positivi", $"variazione_totale_positivi".cast(sql.types.IntegerType)).
       withColumn("totale_ospedalizzati", $"totale_ospedalizzati".cast(sql.types.IntegerType)).
-      withColumn("terapia_intensiva", $"nuovi_attualmente_positivi".cast(sql.types.IntegerType)).
+      withColumn("terapia_intensiva", $"terapia_intensiva".cast(sql.types.IntegerType)).
       withColumn("dimessi_guariti", $"dimessi_guariti".cast(sql.types.IntegerType)).
       withColumn("tamponi", $"tamponi".cast(sql.types.IntegerType)).
       withColumn("totale_casi", $"totale_casi".cast(sql.types.IntegerType)).

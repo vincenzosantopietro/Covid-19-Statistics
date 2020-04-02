@@ -27,7 +27,7 @@ class InfluxDBSink(dbUrl:String, dbName: String, measurementName: String, data :
 
 
   override def storeMetrics(): Unit = {
-    syncInfluxDb(new URI(dbUrl), "covid-stats") { db =>
+    syncInfluxDb(new URI(dbUrl), dbName) { db =>
       for(elem <- data){
         db.write(elem)
       }

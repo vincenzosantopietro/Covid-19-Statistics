@@ -34,7 +34,8 @@ class ItalianCitiesCNMDataParser(inputPath : String) extends DataParser {
       drop("codice_provincia").
       drop("sigla_provincia").
       drop("note_it").
-      drop("note_en")
+      drop("note_en").
+      filter("city != \"In fase di definizione/aggiornamento\"")
 
     data.show(2)
     Some(data)

@@ -20,22 +20,34 @@ class ItalianCNMDataParser(inputPath : String) extends DataParser {
     val data = spark.read.
       option("header","true").
       csv(resource_path).
-      //withColumn("sno", $"sno".cast(sql.types.IntegerType)).
-      withColumn("data", to_timestamp(col("data"),"yyyy-MM-dd\'T\'HH:mm:ss")).
-      //withColumn("Date", $"Date".cast(sql.types.StringType)).
-      withColumn("deceduti", $"deceduti".cast(sql.types.IntegerType)).
-      withColumn("totale_positivi", $"totale_positivi".cast(sql.types.IntegerType)).
-      withColumn("variazione_totale_positivi", $"variazione_totale_positivi".cast(sql.types.IntegerType)).
-      withColumn("totale_ospedalizzati", $"totale_ospedalizzati".cast(sql.types.IntegerType)).
-      withColumn("terapia_intensiva", $"terapia_intensiva".cast(sql.types.IntegerType)).
-      withColumn("dimessi_guariti", $"dimessi_guariti".cast(sql.types.IntegerType)).
-      withColumn("tamponi", $"tamponi".cast(sql.types.IntegerType)).
-      withColumn("totale_casi", $"totale_casi".cast(sql.types.IntegerType)).
-      withColumn("stato", $"stato".cast(sql.types.StringType)).
-      withColumn("isolamento_domiciliare", $"isolamento_domiciliare".cast(sql.types.IntegerType)).
-      withColumn("ricoverati_con_sintomi", $"ricoverati_con_sintomi".cast(sql.types.IntegerType))
+      withColumnRenamed("data","date").
+      withColumn("date", to_timestamp(col("date"),"yyyy-MM-dd\'T\'HH:mm:ss")).
+      withColumnRenamed("ricoverati_con_sintomi","hospital_symptoms").
+      withColumn("hospital_symptoms", $"hospital_symptoms".cast(sql.types.IntegerType)).
+      withColumnRenamed("terapia_intensiva","intensive_care").
+      withColumn("intensive_care", $"intensive_care".cast(sql.types.IntegerType)).
+      withColumnRenamed("totale_ospedalizzati","total_through_hospital").
+      withColumn("total_through_hospital", $"total_through_hospital".cast(sql.types.IntegerType)).
+      withColumnRenamed("isolamento_domiciliare","home_isolation").
+      withColumn("home_isolation", $"home_isolation".cast(sql.types.IntegerType)).
+      withColumnRenamed("totale_positivi","total_infected").
+      withColumn("total_infected", $"total_infected".cast(sql.types.IntegerType)).
+      withColumnRenamed("variazione_totale_positivi","infected_variation").
+      withColumn("infected_variation", $"infected_variation".cast(sql.types.IntegerType)).
+      withColumnRenamed("dimessi_guariti","recovered").
+      withColumn("recovered", $"recovered".cast(sql.types.IntegerType)).
+      withColumnRenamed("deceduti","dead").
+      withColumn("dead", $"dead".cast(sql.types.IntegerType)).
+      withColumnRenamed("totale_casi","total_cases").
+      withColumn("total_cases", $"total_cases".cast(sql.types.IntegerType)).
+      withColumnRenamed("tamponi","tampons").
+      withColumn("tampons", $"tampons".cast(sql.types.IntegerType)).
+      drop("nuovi_positivi").
+      drop("note_it").
+      drop("note_en").
+      drop("stato")
 
-    Some(data.drop("note_it").drop("note_en"))
+    Some(data)
   }
 
   override def getData : DataFrame = {

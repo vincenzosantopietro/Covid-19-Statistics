@@ -32,9 +32,8 @@ class ItalyDeclaredCasesOverTime(data: DataFrame) extends MetricsGenerator {
 
   def createPoints(dataList: List[Row], schema: Array[String]): ListBuffer[Point] = {
     var list = new ListBuffer[Point]()
-    val dataClean = dataList.drop(dataList.size-1)
 
-    for(elem <- dataClean){
+    for(elem <- dataList){
       val field = createFields(elem, schema)
       list +=  Point(
         time = DateTime.parse(elem(0).toString.substring(0,10)),
@@ -48,10 +47,9 @@ class ItalyDeclaredCasesOverTime(data: DataFrame) extends MetricsGenerator {
 
   override def generate(): Unit = {
     val schema = data.columns
-    //println(schema)
     val dataList = data.collect().toList
-    //data.show()
     val points = createPoints(dataList,schema)
+
     new InfluxDBSink("http://localhost:8086/","covid-italy", measurementName, points).storeMetrics()
   }
 }

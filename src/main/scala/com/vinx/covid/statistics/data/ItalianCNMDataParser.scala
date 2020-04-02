@@ -10,7 +10,7 @@ import scala.util.Try
 
 class ItalianCNMDataParser(inputPath : String) extends DataParser {
 
-  private val spark = SparkSession.builder().appName("covd_statistics").master("local[*]").getOrCreate()
+  private val spark = SparkSession.builder().appName("covid_statistics").master("local[*]").getOrCreate()
 
   private def parseData : Some[DataFrame] = {
     import spark.implicits._

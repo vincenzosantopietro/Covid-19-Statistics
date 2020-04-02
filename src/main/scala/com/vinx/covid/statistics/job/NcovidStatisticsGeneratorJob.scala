@@ -30,7 +30,7 @@ object NcovidStatisticsGeneratorJob {
 
     logger.info("Metrics computation started!")
     for (metric <- metrics) {
-      val metric_generator = MetricsGeneratorFactory.createMetricsGenerator(metric, dataPath, "output/" + metric + ".png")
+      val metric_generator = MetricsGeneratorFactory.createMetricsGenerator(metric, dataPath)
       metric_generator.generate()
     }
     logger.info("Metrics computation successfully finished.")

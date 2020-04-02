@@ -17,30 +17,24 @@ import org.joda.time.DateTime
 import org.apache.spark.sql.Row
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 
-class InfluxDBSink(dbUrl:String, dbName: String, measurementName: String) extends MetricsWriter {
+class InfluxDBSink(dbUrl:String, dbName: String, measurementName: String, data : ListBuffer[Point]) extends MetricsWriter {
 
   implicit val awaitAtMost: FiniteDuration = 10.seconds
   val spark: SparkSession = SparkSession.builder.getOrCreate
 
-  def createFields(row: Row, schema: Array[String]): Map[FieldKey, FieldValue] = {
-    var field = Map[FieldKey,FieldValue]()
 
-    for(i <- 2 until schema.length){
-      if(i == 2)
-        field.+=((schema(i), StringFieldValue(row(i).toString)))
-      else
-        field.+=((schema(i), BigDecimalFieldValue(row(i).toString.toInt)))
+  override def storeMetrics(): Unit = {
+    syncInfluxDb(new URI(dbUrl), "covid-stats") { db =>
+      for(elem <- data){
+        db.write(elem)
+      }
     }
-    field
-  }
 
-  override def storeMetrics(metrics: DataFrame): Unit = {
     // List of column names
-    val schema = metrics.columns
-    schema.foreach(println)
-    metrics.show()
+    /*val schema = metrics.columns
     val data = metrics.collect()
 
     val list = data.toList
@@ -56,6 +50,6 @@ class InfluxDBSink(dbUrl:String, dbName: String, measurementName: String) extend
         )
         db.write(point)
       }
-    }
+    }*/
   }
 }

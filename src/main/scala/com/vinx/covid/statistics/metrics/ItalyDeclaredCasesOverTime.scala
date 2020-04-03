@@ -3,7 +3,7 @@ import com.pygmalios.reactiveinflux.Point.FieldKey
 import com.pygmalios.reactiveinflux.{BigDecimalFieldValue, FieldValue, Point, StringFieldValue}
 import com.vinx.covid.statistics.metrics.utils.InfluxDBSink
 import org.apache.log4j.Logger
-import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.joda.time.DateTime
 
 import scala.collection.mutable.ListBuffer
@@ -17,6 +17,7 @@ import scala.collection.mutable.ListBuffer
 class ItalyDeclaredCasesOverTime(data: DataFrame) extends MetricsGenerator {
 
   private val measurementName : String = "country-overall"
+  private val spark: SparkSession = SparkSession.builder().appName("covid_statistics").master("local[*]").getOrCreate()
 
   def createFields(row: Row, schema: Array[String]): Map[FieldKey, FieldValue] = {
     var field = Map[FieldKey,FieldValue]()
@@ -49,7 +50,7 @@ class ItalyDeclaredCasesOverTime(data: DataFrame) extends MetricsGenerator {
     val schema = data.columns
     val dataList = data.collect().toList
     val points = createPoints(dataList,schema)
-
+    println(points.size)
     new InfluxDBSink("http://localhost:8086/","covid-italy", measurementName, points).storeMetrics()
   }
 }

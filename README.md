@@ -6,7 +6,12 @@ Scala, with Spark, stores data on InfluxDB and visualizes data trough Grafana Da
 Probably scala is not the best tool for this kind of applications, but i decided to stick with it to practice with the
 progamming language I use at work. 
 
-## Grafana & InfluxDB setup
+## Dependencies
+
+- InfluxDB
+- Grafana
+- Maven
+- Spark
 
 Both Grafana and InfluxDB are available in the container that docker will pull if you run the `start_docker.sh` script.
 
@@ -22,9 +27,7 @@ docker run -d \
   -v grafana:/var/lib/grafana \
   philhawthorne/docker-influxdb-grafana:latest
 ```
-
-After you pull the repo, you'll need to create the database on InfluxDB (`localhost:3004`) and log into Grafana to set
-the proper data source (`localhost:3003`). Remember the password on Grafana is `password` (super safe, my friend)
+You could also install both influx and grafana with `apt`. You decide.
 
 ## Run the Metrics Generator Job
 
@@ -42,6 +45,8 @@ spark-submit --class com.vinx.covid.statistics.job.NcovidStatisticsGeneratorJob 
 ![Image of Grafana Panels](src/main/resources/images/grafanacovid.png)
 
 #### Additional Notes
+
+A running demo can be found here: 
 
 Feel free to provide any feedback, suggest possible improvements or new data sources to "play" with. 
 

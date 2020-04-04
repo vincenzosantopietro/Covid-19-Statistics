@@ -25,7 +25,7 @@ class ItalyCasesPerCityOverTime(data: DataFrame) extends MetricsGenerator {
 
   private val measurementName : String = "country-cities"
   private val spark = SparkSession.builder().appName("covid_statistics").master("local[*]").getOrCreate()
-
+  private var msCounter: Int = 0
   def createFields(row: Row, schema: Array[String]): Map[FieldKey, FieldValue] = {
     var field = Map[FieldKey,FieldValue]()
 
@@ -44,11 +44,12 @@ class ItalyCasesPerCityOverTime(data: DataFrame) extends MetricsGenerator {
       val field = createFields(elem, schema)
       //println(s"field: ${field}")
       list +=  Point(
-        time = new DateTime().withMillisOfSecond(Random.nextInt(999)), // we don't care time here
+        time = DateTime.now().withMillisOfSecond(msCounter), // we don't care time here
         measurement = measurementName,
         tags = Map("Time"->"Infected"),
         fields = field
       )
+      msCounter+=1
     }
     list
   }

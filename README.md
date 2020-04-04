@@ -42,11 +42,11 @@ spark-submit --class com.vinx.covid.statistics.job.NcovidStatisticsGeneratorJob 
  target/Covd-19-Statistics-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-![Image of Grafana Panels](src/main/resources/images/grafanacovid.png)
+![Image of Grafana Panels](src/main/resources/images/screenshot.png)
 
 #### Additional Notes
 
-A running demo can be found here: 
+A running demo can be found here: http://18.156.4.186:3000/d/-I6bRG9Zk/covid-19-statistics-italy?orgId=1&refresh=2h
 
 Feel free to provide any feedback, suggest possible improvements or new data sources to "play" with. 
 
